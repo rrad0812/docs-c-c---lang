@@ -13,7 +13,7 @@
 
 ## Doctor Dobs Journal
 
-[C progrmming](./ddj/)
+[**C programming - Content**](doctor-dobs-journal/C_programming_00.md)
 
 Radosav.  
 february, 2026.

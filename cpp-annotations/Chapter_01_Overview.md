@@ -3,11 +3,10 @@
 
 The chapters of the C++ Annotations cover the following topics:
 
-**[Chapter 1: This overview of the chapters](Chapter_01_Overview.mdOverview.md)**  
+**[Chapter 1: This overview of the chapters](Chapter_01_Overview.md)**  
 **[Chapter 2: A general introduction to C++](Chapter_02_Introduction.md)**  
 **[Chapter 3: A first impression: differences between C and C++](Chapter_03_First_impressions_of_C++.md)**
   
-
 **[Chapter 4: Name Spaces: how to avoid name collisions]()**  
 **[Chapter 5: The string data typec]()**  
 **[Chapter 6: The C++ I/O library]()**  

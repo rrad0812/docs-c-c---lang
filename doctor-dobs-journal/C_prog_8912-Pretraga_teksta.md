@@ -1,9 +1,7 @@
 
-# C programiranja 17
+# C programiranja 8912
 
-## Pretraga teksta, C++ i OOPS, i ANSI stringovi
-
-Al Stevens, decembar '89
+## Pretraga teksta, C++ i OOPS, i ANSI stringovi - Al Stevens
 
 Ovog meseca ćemo započeti novi projekat rubrike "C programiranje". Ispitaćemo neke od problema povezanih sa održavanjem velikih tekstualnih baza podataka. Možda ste upoznati sa problemom. Imate mnogo referentnog materijala i ne znate uvek kako da pronađete ono što tražite. Ponekad se referentni materijal čuva u tekstualnim datotekama. Ako držite mnogo datoteka za obradu teksta na poslu ili ako preuzmete mnogo softvera sa .DOC ili READ.ME datotekama, vaš materijal je uskladišten negde u ASCII tekstu i bio bi spreman za čitanje samo da ga možete pronaći. Naš novi projekat će se pozabaviti problemima povezanim sa lociranjem tekstualnih datoteka koje sadrže informacije koje su nam potrebne.
 

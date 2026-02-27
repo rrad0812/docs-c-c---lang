@@ -1,9 +1,7 @@
 
-# C Programiranje 01
+# C Programiranje 8808
 
-## Da krenemo
-
-Al Stevens, avgust '88
+## Da krenemo - Al Stevens
 
 Kada su me ljudi iz DDJ pozvali da radim ovu kolumnu, ponudili su mi šansu da vratim dugove koji su dugo dospevali. Kao lojalni čitač DDS-a od njegovih najranijih dana, dobio sam mnogo znanja, saveta i dobrog koda sa njegovih stranica. Ova kolumna je sada prva rata u onome što bi moglo da postane dug period otplate. Molim vas, sada mi ugodite malo uvoda.
 

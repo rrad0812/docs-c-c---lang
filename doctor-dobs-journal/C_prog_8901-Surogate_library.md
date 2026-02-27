@@ -1,9 +1,7 @@
 
-# C programiranje 06
+# C programiranje 8901
 
-## Surogate Library
-
-Al Stevens, januar '89
+## Surogate Library - Al Stevens
 
 Nekoliko čitalaca je pitalo zašto sam izabrao Turbo C za projekat kolumne „Programiranje C“. Mnogi od vas koriste druge kompajlere, a neki se osećaju izostavljenim. Jedan takav čitalac ide toliko daleko da kaže da će mu sledećih nekoliko brojeva DDJ-a biti beskorisno i da će verovatno dozvoliti da mu istekne pretplata. To mi je privuklo pažnju.
 

@@ -1,9 +1,7 @@
 
-# C programiranje 02
+# C programiranje 8809
 
-## Jedenje slona: projekat počinje
-
-Al Stevens, septembar '88
+## Jedenje slona: projekat počinje - Al Stevens
 
 Ovog meseca inauguriramo projekat kolumne "C programiranje", funkciju u kojoj ćemo razviti komunikacioni program za koji bi trebalo da bude potrebno nekoliko meseci da se završi. Da bismo započeli projekat, moramo uzeti u obzir zahteve programa. Po mom mišljenju, dve procedure su neophodne tokom razvoja računarskog sistema:
 

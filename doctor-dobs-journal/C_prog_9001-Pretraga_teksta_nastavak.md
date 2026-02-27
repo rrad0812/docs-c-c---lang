@@ -1,8 +1,6 @@
-# C programiranje 18
+# C programiranje 9001
 
-## TEXTSRCH nastavak: Interpreter izraza
-
-Al Stevens, januar '90
+## TEXTSRCH nastavak: Interpreter izraza - Al Stevens
 
 Prošlog meseca smo napravili parser izraza koji obrađuje izraze koji se sastoje od ključnih reči, Bulovih operatora i zagrada. Koristićemo izraze u upitima za pretraživanje teksta za novi projekat kolone „C programiranje“, sistem za indeksiranje i pronalaženje baze tekstualnih podataka. Ovog meseca projektu dajemo ime TEKSTSRCH i nastavljamo sa tumačenjem izraza.
 

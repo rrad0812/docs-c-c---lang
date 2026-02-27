@@ -1,9 +1,7 @@
 
-# C programiranje 04
+# C programiranje 8811
 
-## Prozorski uređivač teksta
-
-Al Stevens, novembar '88
+## Prozorski uređivač teksta - Al Stevens
 
 Ovaj mesec dodajem uređivač teksta u PC C skup alata koji pravimo. Prethodne dve kolumne „C programiranje“ sadržale su biblioteku prozora, prozore za unos podataka i menadžer menija. Buduće kolumne će paketu dodati prozore pomoći, komunikacijske funkcije i protokole za prenos datoteka. Na kraju će sve to biti okupljeno u integrisani komukacioni program. Ali pre nego što dođemo do uređivača teksta ovog meseca, želim da se pozabavim brigom čitalaca koja stalno dobijam.
 

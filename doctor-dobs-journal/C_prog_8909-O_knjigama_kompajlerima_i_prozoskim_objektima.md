@@ -1,8 +1,6 @@
-# C programiranje 14
+# C programiranje 8909
 
-## C++: O knjigama, kompajlerima i prozorskim objektima
-
-Al Stevens, septembar '89
+## C++: O knjigama, kompajlerima i prozorskim objektima Al Stevens
 
 Prošlog meseca sam pogledao C++ programski jezik Bjornea Stroustrupa i odlučio da pronađem drugu knjigu koja bi bila uvod u C++. Knjiga Stroustrup, koju ću u daljem tekstu s ljubavlju zvati BS (u tradiciji K&R), poslužiće kao referenca kada bolje razumem jezik C++. Ali pošto mi je i dalje bio potreban tekst vodiča za C++, pretražio sam knjižare.
 

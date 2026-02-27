@@ -1,9 +1,7 @@
 
-# C programiranje 16
+# C programiranje 8911
 
-## C++ i povezane liste
-
-Al Stevens, novembar '89
+## C++ i povezane liste - Al Stevens
 
 Ovog meseca se upuštam dalje u C++ sa novom klasom, LinkedList. Programeri već godinama koriste strukturu podataka povezane liste. Omogućava vam da sačuvate nepoznat broj stavki podataka u tabeli gde unosi ne moraju da budu susedni u memoriji. Takođe rešava probleme koji se javljaju kod standardnih nizova kada unosi imaju različite veličine. Evo kako funkcioniše povezana lista.
 

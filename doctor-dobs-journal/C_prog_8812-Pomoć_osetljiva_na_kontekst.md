@@ -1,9 +1,7 @@
 
-# C programiranje 05
+# C programiranje 8812
 
-## Pomoć osetljiva na kontekst i TWRP, mali procesor teksta
-
-Al Stevens, decembar '88
+## Pomoć osetljiva na kontekst i TWRP, mali procesor teksta - Al Stevens
 
 Tokom poslednjih nekoliko meseci, sastavljali smo biblioteku alata orijentisanih na prozore koji će se koristiti u razvoju komunikacionog programa. Prošlomesečna kolumna predstavljala je mehanizam za uređivanje teksta koji vam omogućava da sakupite tekst slobodnog oblika koji je uneo korisnik u bafer kroz prozor. Ovog meseca ćemo okružiti taj motor strukturom menija i dodati funkcije za upravljanje datotekama i pretraživanje teksta. Međutim, prvo moramo da dovršimo kolekciju alata za prozore dodavanjem funkcije pomoći koja je osetljiva na kontekst.
 

@@ -1,9 +1,7 @@
 
-# C programiranje 13
+# C programiranje 8908
 
-## OPP levo, FOP desno i pogled iz centra
-
-Al Stevens, avgust '89
+## OPP levo, FOP desno i pogled iz centra - Al Stevens
 
 Ispostavilo se da sam zloupotrebio funkciju jezika C, čiju snagu sam tek sada shvatio. Karakteristika je `typedef` izjava. Hajde da ispitamo kako je došlo do mog manjeg prestupa gledajući kako se tipedef može koristiti i kako ga treba koristiti.
 

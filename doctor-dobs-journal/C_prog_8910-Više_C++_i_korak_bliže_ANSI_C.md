@@ -1,8 +1,6 @@
-# C Programiranje 15
+# C Programiranje 8910
 
-## Više C++ i korak bliže ANSI C-u
-
-Al Stevens, oktobar '89
+## Više C++ i korak bliže ANSI C-u - Al Stevens
 
 Naša kolekcija C++ alata počela je prošlog meseca jednostavnim menadžerom prozora. Prva klasa koju smo napravili bio je prozor koji se pojavljuje kada je deklarisan iz programa i nestaje kada izađe van opsega. Metode prozora uključuju sledeće:
 

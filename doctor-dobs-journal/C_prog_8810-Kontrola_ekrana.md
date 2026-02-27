@@ -1,9 +1,7 @@
 
-# C programiranje 03
+# C programiranje 8810
 
-## Kontrola ekrana, Programiranje kao umetnost (?) i C ++
-
-Al Stevens, oktobar '88
+## Kontrola ekrana, Programiranje kao umetnost (?) i C ++ - Al Stevens
 
 Prošlog meseca smo započeli programski projekat "C Column" sa bibliotekom video prozora opšte namene za IBM PC i kompatibilne računare. Ovo izdanje nastavlja taj projekat sa setom softverskih alata orijentisanih na prozore koji koriste funkcije prozora od prošlog meseca. Do sada nismo naterali program da uradi bilo šta; to dolazi kasnije. Konačni program će biti drajver komunikacionih usluga koji će koristiti pretplatnici na on-line usluge.
 

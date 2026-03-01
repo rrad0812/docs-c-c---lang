@@ -1,0 +1,856 @@
+
+# C programiranje 8810
+
+## Kontrola ekrana - Al Stevens
+
+Prošlog meseca smo započeli programski projekat "C Column" sa bibliotekom video prozora opšte namene za IBM PC i kompatibilne računare. Ovo izdanje nastavlja taj projekat sa setom softverskih alata orijentisanih na prozore koji koriste funkcije prozora od prošlog meseca. Do sada nismo naterali program da uradi bilo šta; to dolazi kasnije. Konačni program će biti drajver komunikacionih usluga koji će koristiti pretplatnici na on-line usluge.
+
+Ovog meseca dodajemo mogućnost menija prozora i drajver ekrana za unos podataka. Ovi alati su dovoljno opšti da ih koristite u drugim projektima dok čekate komunikacionu aplikaciju za koju su namenjeni. Alati su napisani u C i kompajlirani su sa Turbo C, verzija 1.5.
+
+### Prozorski meni
+
+Program koji pravimo koristi meni sa kliznom trakom na vrhu ekrana sa nizom izbora prikazanih horizontalno preko trake. Izbor može imati pridruženi iskačući meni. Da bismo izgradili ovu mogućnost, koristićemo funkciju menija opšte namene koju vode tabele struktura. Strukture su definisane izvan funkcija menija i opisuju prikaze menija i softver koji izvršava svaki izbor menija. Kasniji alati, kao što je uređivač teksta, koristiće ove menije. Tako će biti i sa komunikacionim programom aplikacije.
+
+[LISTING_ONE](#listing_one) je "menu.h". Ova datoteka će biti uključena u programe koji moraju da opisuju i izvršavaju menije koristeći funkcije menija. Meni opisujete tako što deklarišete i inicijalizujete niz struktura koje su imenovane pomoću tipedef "MENU". Svaki element u nizu opisuje izbor na kliznom meniju na vrhu ekrana. Članovi strukture opisuju selekciju. Evo opisa svakog člana:
+
+- **mname**:  
+Pokazivač na ime selekcije kako će biti prikazano na kliznoj traci.
+
+- **mhlpmsg**:  
+Pokazivač na duži niz koji će biti prikazan u donjem redu ekrana kada je izbor istaknut. Ovaj niz se koristi za pojačavanje značenja izbora tako što se opisuje korisniku.
+
+- **mselcs**: Pokazivač na niz pokazivača znakova, od kojih svaki pokazuje na tekst selekcije u padajućem meniju povezanom sa menijem klizne trake. Ovaj niz mora biti završen NULL pokazivačem. Ako je NULL pokazivač na prvoj poziciji, neće se pojaviti iskačući meni, a sam izbor menija bočne trake će izvršiti jednu komandu.
+
+- **mshelp**: Niz pokazivača karaktera, od kojih svaki ukazuje na mnemoniku prozora pomoći za pridruženi izbor u iskačućem meniju. Ovo će biti objašnjeno kasnije kada instaliramo kontekstno osetljive prozore pomoći.
+
+- **mskeys**: Pokazivač na niz znakova koji sadrži pritiske na tastere koji će izvršiti iskačuće komande. Ova funkcija omogućava da se meni izvrši na jedan od dva načina – pozicioniranje kursora menija na izbor i pritisak na taster Enter, ili pritisak na određeni taster za izbor kao što je navedeno u nizu mskeis.
+
+- **func**: Niz pokazivača funkcija koji upućuju na funkcije koje će biti izvršene pridruženim izborima iz padajućeg menija.
+
+- **lastvsel**: Koristi ga menadžer menija za pamćenje najnovijeg vertikalnog izbora; treba da bude inicijalizovan na nultu vrednost.
+
+Sa nizom tako inicijalizovanih struktura MENU, pozivate funkciju menija __select, prosleđujući joj adresu strukture i ceo broj koji govori koji od horizontalnih izbora treba da bude istaknut kada se meni prvi put prikaže. Obično ceo broj ima vrednost 1.
+
+[LISTING_TWO](#listing_two) je "menu.c", koji sadrži funkcije biblioteke koje prikazuju menije, dobijaju izbor korisnika i izvršavaju odgovarajuće funkcije.
+
+[LISTING_THREE](#listing_three) je "testmenu.c", primer jednostavnog programa menija koji pokazuje kako se softver menija može koristiti. Primer je sažetak menija koji će se koristiti u okviru uređivača teksta dela komunikacionog softverskog paketa. Primer ne radi ništa. To samo ilustruje kako se koriste funkcije menija. Kompilirajte ga i povežite ga sa funkcijama menija i prozora i on će prikazati i kretati se po menijima. Slika 1, strana 111, prikazuje menije onako kako su prvi put prikazani. Tasteri sa strelicama biraju iskačuće menije i pomeraju trake kursora. Taster Enter bira stavku menija. Meni sa opcijama pokazuje primer kako možete da koristite ove menije za uključivanje i isključivanje režima rada.
+
+Kompilirajte i povežite "testmenu.c" sa "menu.c" i "window.c" iz prošlomesečne C kolumne. Biće vam potreban "menu.h" i "window.h" od prošlog meseca.
+
+Možete da napravite ugnežđene slojeve ovih menija tako što ćete pozvati menu_select iz funkcije koja je izvršena iz menija višeg nivoa. U stvari, meni urednika koji smo simulirali u ovom primeru biće pozvan iz uređivačke funkcije koja se poziva iz menija školjke.
+
+Funkcije koje poziva menadžer menija će dobiti dva cela broja kao parametre. Ovi celi brojevi su horizontalni izbor iz kliznog menija
+
+Funkcije koje poziva menadžer menija će dobiti dva cela broja kao parametre. Ovi celi brojevi su horizontalni izbor sa kliznog menija (1, 2,.., n) i vertikalni izbor iz padajućeg menija (1, 2,.., n). Ove vrednosti omogućavaju funkciji da odredi koji izbor menija je izvršio. Svaka funkcija koja se izvršava iz menija mora da vrati celobrojnu vrednost tačno ili netačno. Ako se vrati lažna vrednost, menadžer menija zadržava kontrolu nad izborom gde je funkcija pozvana. Ako se vrati tačna vrednost, menadžer menija se vraća pozivaocu funkcije "menu_select". Iako izbori menija u primeru ne rade ništa, možete videti da ova funkcija funkcioniše u izboru "Prekini" u meniju "Datoteka". njegova funkcija vraća tačnu vrednost, a menadžer menija vraća. Ostale funkcije vraćaju false, a korisnik ostaje u meniju koji je izvršio funkciju.
+
+### Ekrani za unos podataka
+
+[LISTING_FOUR](#listing_four) je "input.h", a [LISTING_FIVE](#listing_five) je "entry.c". Ove dve datoteke koriste biblioteku prozora za implementaciju ekrana za unos podataka opšte namene. Evo kako to funkcioniše: uspostavljate prozor i gradite niz definicija polja za unos podataka. Upisujete neke informacije koje traže u prozor i pozivate softver za unos podataka, prosleđujući mu adresu niza definicija polja. Softver za unos podataka preuzima i prikuplja korisničke ključne unose u vaše bafere. Sve dobre stvari o skakanju sa polja na polje i prozorima pomoći i slično upravlja biblioteka za unos podataka.
+
+Struktura u "entry.h" pod nazivom "FIELD" se koristi za opisivanje polja za unos podataka. Pravite niz ovih struktura koje završava strukturom nulte vrednosti. Evo objašnjenja svakog od članova u strukturi:
+
+- **frow**:  
+Broj reda u kome će polje biti prikazano u trenutnom prozoru.
+
+  Slika 1: Test meni (iz testmenu.c)
+
+- **fcol**:  
+Broj kolumne polja. (Napomena: Redovi i kolumne su u odnosu na jedan. Krajnja gornja leva pozicija u prozoru je red 1, kolona 1.)
+
+- **fk**:  
+Broj kolumne u toku koji koristi softver za unos podataka. Ova vrednost treba da bude inicijalizovana na 1.
+
+- **fbuff**: Pokazivač na bafer gde će se čuvati vrednost podataka kada je korisnik unese.
+
+- **fmask**:  
+Pokazivač na masku polja. Maske su nizovi podvlačenja i drugih znakova. Podvučene linije odgovaraju pozicijama znakova podataka polja. Ostali znakovi su prikazani sa poljem da bi bilo čitljivije. Na primer, maska za telefonski broj može biti sledeća:  
+
+  ```c
+  ( ) ______-______
+  ```
+
+- **fhelp**:  
+Pokazivač na mnemoniku prozora pomoći u polju, koji će biti objašnjen drugi put. Za sada neka bude NULL.
+
+[LISTING_SIX](#listing_six) je program "testentr.c", koji ilustruje upotrebu ekrana za unos podataka. On uspostavlja prozor sa naslovom i upisuje neke poruke u prozoru. Zatim poziva funkciju unosa podataka da prikupi vrednosti podataka u svoj bafer. Parametri su:
+
+- adresa niza FIELD struktura,
+- TRUE vrednost koja govori funkciji da inicijalizuje bafere na nizove razmaka koji su završeni nulom,
+- i celobrojna vrednost 1 da kaže funkciji da počne sa kursorom polja na prvom polju u nizu.
+
+Slika 2 prikazuje ekran koji je prikazan u primeru nakon unosa nekih vrednosti podataka.
+
+Da biste koristili ekran (koji ne radi ništa osim prikupljanja podataka u bafer, jednostavno ukucate neke vrednosti podataka).
+
+- **Ins** taster prebacuje režim umetanja/prepisivanja.
+- **Arrow** tasteri sa strelicama pomeraju kursor.
+- **Ctrl-Right** ili **Ctrl-Left** preskaču reči.
+- **Home** taster ide na početak polja,
+- **End** ide na njegov kraj.
+- **Backspace** briše znak sa leve strane,
+- **Esc** taster za ukidanje bilo koje funkcije.
+
+Esc će prekinuti unos podataka i vratiti vrednost ključa za završetak pozivaocu funkcije za unos podataka.
+
+Kompilirajte i povežite "testentr.c" sa "entry.c" i "window.c" iz prošlomesečne C kolumne. Biće vam potreban "entri.h" i "windov.h" od prošlog meseca.
+
+Možete da zadržite "testmenu.c" i "testentr.c" kao primere i da testirate druge menije i ekrane za unos podataka koje biste mogli da dizajnirate. Oni, međutim, neće biti deo projekta programiranja C kolumne osim kao primeri. Ostale izvorne datoteke su čuvari.
+
+Sledećeg meseca ćemo dodati uređivač teksta prozora i biblioteku prozora pomoći osetljive na kontekst. Strukture definicija menija i unosa podataka uključuju članove koji ukazuju na pomoć u mnemo tehnici prozora. Do sada ih nismo koristili. Kasnije ćemo u ove članove staviti imena prozora pomoći (pokazivače na nizove) i tekst prozora pomoći u datoteku, a funkcija pomoći će postati automatska. Pritisnite taster za pomoć dok je kursor na izboru menija ili polju za unos podataka i pojaviće se prozor pomoći osetljiv na kontekst.
+
+#### LISTING_ONE
+
+```c
+/* ----------- menu.h ---------- */
+
+typedef struct w_menu {
+    char *mname;            /* menu bar selection names                     */
+    char *mhlpmsg;          /* menu bar prompting messages                  */
+    char **mselcs;          /* the pop-down menu selections                 */
+    char **mshelp;          /* help mnemonics for the pop-down selections   */
+    char *mskeys;           /* key strokes that accompany the selections    */
+    int (**func)(int,int);  /* the functions to execute for the selections  */
+    int lastvsel;           /* most recent vertical selection               */
+} MENU;
+
+void menu_select(MENU *, int);
+char *display_menubar(MENU *);
+void restore_menubar(char *);
+```
+
+#### LISTING_TWO
+
+```c
+/* ------------ menu.c ------------ */
+
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "window.h"
+#include "menu.h"
+
+#define ON 1
+#define OFF 0
+
+static int getvmn(void);
+static void haccent(int);
+static void dimension(char **,int *,int *);
+static void light(int);
+static int vlook(int,int);
+
+int hsel = 1;        /* horizontal selection */
+MENU *mn;            /* active menu          */
+
+/* ------------- display & process a menu ----------- */
+void menu_select(MENU *mnn, int sel)
+{
+    int hs, sx, sy, vsel, holdhsel, frtn = FALSE;
+    char *mb;
+
+    if (sel)
+        hsel = sel;
+    mn = mnn;
+    sx = wherex();
+    sy = wherey();
+    mb = display_menubar(mn);
+    light(ON);
+    while (!frtn && ((vsel = getvmn()) != 0))    {
+        light(OFF);
+        holdhsel = hsel;
+        hs = hsel;
+        hsel = 1;
+        frtn = (*(mn+hs-1)->func [vsel-1]) ?
+               (*(mn+hs-1)->func [vsel-1])(hs,vsel) : FALSE;
+        hsel = holdhsel;
+        mn = mnn;
+        light(ON);
+    }
+    light(OFF);
+    gotoxy(sx, sy);
+    restore_menubar(mb);
+}
+
+/* --- display the menu bar with no selections chosen ---- */
+char *display_menubar(MENU *mn)
+{
+    int i = 0;
+    char *mb;
+
+    if ((mb = malloc(160)) != NULL)
+        gettext(1,1,80,1,mb);
+    window(1,1,80,25);
+    gotoxy(1,1);
+    textcolor(MENUFG);
+    textbackground(MENUBG);
+    cprintf("    ");
+    while ((mn+i)->mname)
+        cprintf(" %-10.10s ", (mn+i++)->mname);
+    while (i++ < 6)
+        cprintf("            ");
+    cprintf("    ");
+    hidecursor();
+    return mb;
+}
+
+/* ------------ restore the menu bar line --------------- */
+void restore_menubar(char *mb)
+{
+    if (mb)    {
+        puttext(1,1,80,1,mb);
+        free(mb);
+    }
+}
+
+/* ---------pop down a vertical menu --------- */
+static int getvmn()
+{
+    int ht, wd, vx, sel;
+
+    while (TRUE)    {
+        dimension((mn+hsel-1)->mselcs, &ht, &wd);
+        if (!(mn+hsel-1)->lastvsel)
+            (mn+hsel-1)->lastvsel = 1;
+        if (ht > 0)    {
+            vx = 5+(hsel-1)*12;
+            establish_window(vx, 2, vx+wd+1, ht+3,
+                MENUFG, MENUBG,TRUE);
+            text_window((mn+hsel-1)->mselcs, 1);
+            sel = select_window((mn+hsel-1)->lastvsel,
+                SELECTFG, SELECTBG, vlook);
+            delete_window();
+            if (sel == FWD || sel == BS)
+                haccent(sel);
+            else
+                return ((mn+hsel-1)->lastvsel = sel);
+        }
+        else    {
+            if ((sel = getkey()) == *(mn+hsel-1)->mskeys)
+                return 1;
+            switch (sel)    {
+                case FWD:
+                case BS:    haccent(sel);
+                            break;
+                case '\r':    return 1;
+                case ESC:    return 0;
+                default:    putch(BELL);
+                            break;
+            }
+        }
+    }
+}
+
+/* ---- if vertical menu user types FWD, BS,
+               or a menu key, return it ---- */
+static int vlook(ch, sel)
+{
+    char *cs, *ks;
+
+    if (ch == FWD || ch == BS)    {
+        (mn+hsel-1)->lastvsel = sel;
+        return ch;
+    }
+    ks = (mn+hsel-1)->mskeys;
+    if ((cs = memchr(ks, tolower(ch), strlen(ks))) == NULL)
+        return ERROR;
+    return ((mn+hsel-1)->lastvsel = cs-ks+1);
+}
+
+/* ----- manage the horizontal menu selection accent ----- */
+static void haccent(int sel)
+{
+    switch (sel)    {
+        case FWD:
+            light(OFF);
+            if ((mn+hsel)->mname)
+                hsel++;
+            else
+                hsel = 1;
+            light(ON);
+            break;
+        case BS:
+            light(OFF);
+            if (hsel == 1)
+                while ((mn+hsel)->mname)
+                    hsel++;
+            else
+                --hsel;
+            light(ON);
+            break;
+        default:
+            break;
+    }
+}
+
+/* ---------- compute a menu's height & width --------- */
+static void dimension(char *sl[], int *ht, int *wd)
+{
+    *ht = *wd = 0;
+
+    while (sl && sl [*ht])    {
+        *wd = max(*wd, (unsigned) strlen(sl [*ht]));
+        (*ht)++;
+    }
+}
+
+/* --------- accent a horizontal menu selection ---------- */
+static void light(int onoff)
+{
+    extern struct wn wkw;
+    extern char spaces[];
+    int ln;
+
+    window(1,1,80,25);
+     textcolor(onoff ? SELECTFG : MENUFG);
+     textbackground(onoff ? SELECTBG : MENUBG);
+     gotoxy((hsel-1)*12+6, 1);
+    cprintf((mn+hsel-1)->mname);
+    textcolor(TEXTFG);
+    textbackground(TEXTBG);
+    if ((mn+hsel-1)->mhlpmsg)    {
+        if (onoff)    {
+            ln = strlen((mn+hsel-1)->mhlpmsg);
+            gotoxy((80-ln)/2,25);
+            cprintf((mn+hsel-1)->mhlpmsg);
+        }
+        else    {
+            gotoxy(1,25);
+            cprintf(spaces);
+        }
+    }
+    current_window();
+    hidecursor();
+}
+```
+
+#### LISTING_THREE
+
+```c
+/* --------- testmenu.c ------------ */
+#include <stdio.h>
+#include <string.h>
+#include "window.h"
+#include "menu.h"
+
+/* ---------- menu tables --------- */
+static char *fselcs[] = {
+    "Load",
+    "Save",
+    "New",
+    "Quit   [Esc]",
+    NULL
+};
+
+static char *eselcs[] = {
+    "Move       [F3]",
+    "Copy       [F4]",
+    "Delete     [F8]",
+    "Find       [F7]",
+    NULL
+};
+
+static char *oselcs[] = {
+    "Auto Paragraph Reformat       ",
+    "Insert  [Ins]                 ",
+    NULL
+};
+
+static int quit(int,int);
+static int reform(int, int);
+static int insert(int, int);
+static void set_toggles(void);
+
+static char forced[] = {F3,F4,F8,F7};
+
+static char options[] = {'a', INS};
+
+static int (*ffuncs[])()={NULL,NULL,NULL,quit};
+static int (*efuncs[])()={NULL,NULL,NULL,NULL};
+static int (*ofuncs[])()={reform,insert};
+
+static char filehelp[] =
+   "Load a file, Save current buffer, Type a new file, Quit";
+static char edithelp[] =
+   "Move, Copy, Delete blocks, Find a string";
+static char optnhelp[] =
+   "Toggle editor options";
+
+MENU emn [] = {
+    {"File",    filehelp, fselcs, NULL,   "",      ffuncs, 0},
+    {"Edit",    edithelp, eselcs, NULL,   forced,  efuncs, 0},
+    {"Options", optnhelp, oselcs, NULL,   options, ofuncs, 0},
+    {NULL}
+};
+
+void main()
+{
+    set_toggles();
+    clear_screen();
+    menu_select(emn, 1);
+    clear_screen();
+}
+
+/* ---- illustrates toggled menu mode selectors -------- */
+int reforming, inserting;  /* these are mode variables */
+
+static int reform(hs,vs)
+{
+    reforming ^= TRUE;
+    set_toggles();
+    return FALSE;
+}
+
+static int insert(hs,vs)
+{
+    inserting ^= TRUE;
+    set_toggles();
+    return FALSE;
+}
+
+static void set_toggles()
+{
+    strcpy(&oselcs[0][24], reforming ? "(on) " : "(off)");
+    strcpy(&oselcs[1][24], inserting ? "(on) " : "(off)");
+}
+
+/* ---- when TRUE is returned, the menu system exits ----- */
+static int quit(hs,vs)
+{
+    return TRUE;
+}
+```
+
+#### LISTING_FOUR
+
+```c
+/* --------- entry.h ---------- */
+
+typedef struct field {      /* data entry field description*/
+    int frow;               /* field row                   */
+    int fcol;               /* field column position       */
+    int fx;                 /* running column              */
+    char *fbuff;            /* field buffer                */
+    char *fmask;            /* field data entry mask       */
+    char *fhelp;            /* field help window mnemonic  */
+} FIELD;
+
+void field_tally(void);
+int data_entry(FIELD *, int, int);
+void clear_template(void);
+void insert_line(void);
+
+#define INSERTING TRUE      /* initial Insert mode */
+```
+
+## LISTING_FIVE
+
+```c
+/* --------- entry.c ---------- */
+
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <dos.h>
+#include "window.h"
+#include "entry.h"
+
+#define FIELDCHAR '_'
+int inserting = INSERTING;      /* insert mode, TRUE/FALSE */
+
+extern struct wn wkw;
+
+/* -------- local prototypes -------- */
+static void addfield(FIELD *);
+static void disp_field(FIELD *, char *, char *);
+static int read_field(int);
+static void data_value(FIELD *);
+static int endstroke(int);
+static void home_cursor(void);
+static int backspace(void);
+static void end_cursor(void);
+static void forward(void);
+static int fore_word(void);
+static int back_word(void);
+static void delete_char(void);
+static void delete_word(void);
+
+static FIELD *fhead;
+static FIELD *ftail;
+FIELD *fld;
+
+/* -------- display a data field ------ */
+static void disp_field(FIELD *fldv, char *bf, char *msk)
+{
+    char cl[80], *cp = cl;
+
+    while (*msk)    {
+        *cp++ = (*msk != FIELDCHAR ? *msk : *bf++);
+        msk++;
+    }
+    *cp = '\0';
+    writeline(fldv->fx + fldv->fcol - 1,
+               fldv->frow, cl);
+}
+
+/* ------- display the data value in a field ------ */
+static void data_value(FIELD *fldv)
+{
+    gotoxy(fldv->fcol, fldv->frow);
+    fldv->fx = 1;
+    disp_field(fldv, fldv->fbuff, fldv->fmask);
+}
+
+/* ------ display all the fields in a window ------- */
+void field_tally()
+{
+    FIELD *fldt;
+
+    fldt = fhead;
+    while (fldt != ftail)    {
+        data_value(fldt);
+        fldt++;
+    }
+}
+
+/* ------- clear a template to all blanks ------ */
+void clear_template()
+{
+    FIELD *fldc;
+    char *bf, *msk;
+
+    fldc = fhead;
+    while (fldc != ftail)    {
+        bf = fldc->fbuff;
+        msk = fldc->fmask;
+        while (*msk)    {
+            if (*msk == FIELDCHAR)
+                *bf++ = ' ';
+            msk++;
+        }
+        fldc++;
+    }
+    *bf = '\0';
+    field_tally();
+}
+
+char *mask, *buff;
+
+/* ------- read a field from the keyboard ------------- */
+static int read_field(c)
+{
+    int done = FALSE, first = TRUE;
+
+    home_cursor();
+    while (TRUE)    {
+        gotoxy(fld->fx+fld->fcol-1, fld->frow);
+        if (!c || !first)
+            c = getkey();
+        first = FALSE;
+        switch (c)    {
+            case CTRL_D:
+                delete_word();
+                break;
+            case CTRL_FWD:
+                done = !fore_word();
+                break;
+            case CTRL_BS:
+                done = !back_word();
+                break;
+            case HOME:
+                fld->fx = 1;
+                home_cursor();
+                break;
+            case END:
+                end_cursor();
+                break;
+            case FWD:
+                forward();
+                break;
+            case BS:
+                backspace();
+                break;
+            case '\b':
+                if (!backspace())
+                    break;
+                gotoxy(fld->fx+fld->fcol-1, fld->frow);
+            case DEL:
+                delete_char();
+                disp_field(fld, buff, mask);
+                break;
+            case INS:
+                inserting ^= TRUE;
+                insert_line();
+                break;
+            default:
+                if (endstroke(c))    {
+                    done = TRUE;
+                    break;
+                }
+                if (inserting)    {
+                    memmove(buff+1, buff, strlen(buff)-1);
+                    disp_field(fld, buff, mask);
+                    gotoxy(fld->fcol+fld->fx-1, fld->frow);
+                }
+                *buff = (char) c;
+                putch(c);
+                forward();
+                if (!*mask)
+                    c = FWD;
+                break;
+        }
+        if (done || !*mask)
+            break;
+    }
+    wkw.wx = fld->fx+1;
+    return c;
+}
+
+/* -------- home the cursor in the field -------- */
+static void home_cursor()
+{
+    buff = fld->fbuff+fld->fx-1;
+    mask = fld->fmask+fld->fx-1;
+    while (*mask != FIELDCHAR)    {
+        fld->fx++;
+        mask++;
+    }
+}
+
+/* ------- move the cursor to the end of the field ------ */
+static void end_cursor()
+{
+    fld->fx += strlen(mask)-1;
+    buff += strlen(buff)-1;
+    mask += strlen(mask)-1;
+    while (*buff == ' ')
+        if (!backspace())
+            break;
+    forward();
+}
+
+/* ------ move the cursor forward one character -------- */
+static void forward()
+{
+    do    {
+        fld->fx++;
+        mask++;
+    } while (*mask && *mask != FIELDCHAR);
+    buff++;
+}
+
+/* ------- move back one character ------------ */
+static int backspace()
+{
+    if (buff != fld->fbuff)    {
+        --buff;
+        do    {
+            --mask;
+            --(fld->fx);
+        } while (*mask != FIELDCHAR);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/* ------- move forward one word ------- */
+static int fore_word()
+{
+    int ct = 2, test = *buff == ' ';
+
+    while (ct--)    {
+        while ((*buff == ' ') == test && *mask)
+            forward();
+        if (!*mask)
+            return FALSE;
+        if (test)
+            break;
+        test = !test;
+    }
+    return TRUE;
+}
+
+/* ------- move backward one word ------- */
+static int back_word()
+{
+    int test;
+
+    if (buff == fld->fbuff)
+        return FALSE;
+    if (*(buff-1) == ' ')
+        backspace();
+    test = *buff == ' ';
+    while ((*buff == ' ') == test && buff != fld->fbuff)
+        backspace();
+    if (test)
+        while (*buff != ' ' && buff != fld->fbuff)
+            backspace();
+    if (*buff == ' ')
+        forward();
+    return TRUE;
+}
+
+/* --------- delete a character ----------- */
+static void delete_char()
+{
+    memmove(buff, buff+1, strlen(buff));
+    *(buff+strlen(buff)) = ' ';
+}
+
+/* ----------- delete a word ---------- */
+static void delete_word()
+{
+    int test = *buff == ' ';
+    int ln = strlen(buff);
+
+    while ((*buff == ' ') == test && ln--)
+        delete_char();
+    if (!test)
+        delete_char();
+    disp_field(fld, buff, mask);
+}
+
+/* ---------- test c for an ending keystroke ----------- */
+static int endstroke(int c)
+{
+    switch (c)    {
+        case '\r':
+        case '\n':
+        case '\t':
+        case ESC:
+        case F1:
+        case F2:
+        case F3:
+        case F4:
+        case F5:
+        case F6:
+        case F7:
+        case F8:
+        case F9:
+        case F10:
+        case PGUP:
+        case PGDN:
+        case HOME:
+        case END:
+        case CTRL_FWD:
+        case CTRL_BS:
+        case CTRL_HOME:
+        case CTRL_END:
+        case UP:
+        case DN:
+            return TRUE;
+        default:
+            return FALSE;
+    }
+}
+
+/* ----- Process data entry for a screen template. ---- */
+int data_entry(FIELD *fldin, int init, int firstfld)
+{
+    int exitcode = 0, done = FALSE;
+
+    insert_line();
+    fhead = ftail = fld = fldin;
+    while (ftail->frow)
+        ftail++;
+    while (firstfld-- && fld != ftail)
+        fld++;
+    --fld;
+    if (init)
+        clear_template();
+    field_tally();
+    /* ---- collect data from keyboard into screen ---- */
+    while (done == FALSE)    {
+        gotoxy(fld->fcol, fld->frow);
+        textcolor(FIELDFG);
+        textbackground(FIELDBG);
+        data_value(fld);
+        gotoxy(fld->fcol, fld->frow);
+        fld->fx = 1;
+        exitcode = read_field(0);
+        textcolor(ENTRYFG);
+        textbackground(ENTRYBG);
+        data_value(fld);
+        switch (exitcode)    {
+            case DN:
+            case '\r':
+            case '\t':
+            case CTRL_FWD:
+            case FWD:    done = (ftail == fhead+1);
+                        fld++;
+                        if (fld == ftail)
+                            fld = fhead;
+                        break;
+            case CTRL_BS:
+            case UP:    if (fld == fhead)
+                            fld = ftail;
+                        --fld;
+                        break;
+            case CTRL_HOME:
+                        fld = fhead;
+                        break;
+            case CTRL_END:
+                        fld = ftail-1;
+                        break;
+            default:    done = endstroke(exitcode);
+                        break;
+        }
+    }
+    fld = NULL;
+    return (exitcode);
+}
+
+/* ---------- set insert/exchange cursor shape ----------- */
+void insert_line()
+{
+    set_cursor_type(inserting ? 0x0106 : 0x0607);
+}
+```
+
+## LISTING_SIX
+
+```c
+/* ----------- testentr.c --------- */
+#include <stdio.h>
+#include <conio.h>
+#include <string.h>
+#include "window.h"
+#include "entry.h"
+
+struct config {
+    char name[36];
+    char acctno[21];
+    char password[11];
+    char phone[15];
+} cfg;
+
+static char mask[] = "___________________________________";
+static char phmask[] = "(___) ___-____ ext.____";
+
+FIELD pers_template[] = {
+    {3, 14, 1, cfg.name,    mask,    NULL},
+    {4, 14, 1, cfg.acctno,  mask+15, NULL},
+    {5, 14, 1, cfg.password,mask+25, NULL},
+    {6, 14, 1, cfg.phone,   phmask,  NULL},
+    {0}
+};
+
+void main()
+{
+    establish_window(15,5,65,12,ENTRYFG,ENTRYBG,TRUE);
+    window_title(" Personal Data ");
+    gotoxy(3,3);
+    cputs("Name:");
+    gotoxy(3,4);
+    cputs("Account #:");
+    gotoxy(3,5);
+    cputs("Password:");
+    gotoxy(3,6);
+    cputs("Phone:");
+    data_entry(pers_template, TRUE, 1);
+    delete_window();
+    return FALSE;
+}
+```

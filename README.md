@@ -75,15 +75,12 @@
 [9304 - Of Keyboards and Menus](./doctor-dobs-journal/9304-Of_Keyboards_and_Menus.md)  
 [9305 - Screen Snapper](./doctor-dobs-journal/9305-Screen_Snapper.md)  
 [9307 - C++ Templates](./doctor-dobs-journal/9307-C++_Templates.md)  
-[9308 - ](./doctor-dobs-journal/9308-.md)  
-[9309 - ](./doctor-dobs-journal/9309-.md)  
-[9310 - ](./doctor-dobs-journal/9310-.md)  
-[9311 - ](./doctor-dobs-journal/9311-.md)  
-[9312 - ](./doctor-dobs-journal/9312-.md)  
+[9309 - C++ Exception Handling](./doctor-dobs-journal/9309-C++_Exception_handling.md)  
+[9311 - D-Flat resumed](./doctor-dobs-journal/9311-D-Flat_resumed.md)  
+[9312 - D-Flat and TED](./doctor-dobs-journal/9312-D-Flat_and_TED.md)  
 
-[9401 - ](./doctor-dobs-journal/9301-.md)  
-[9402 - ](./doctor-dobs-journal/9302-.md)  
-[9403 - ](./doctor-dobs-journal/9303-.md)  
+[9401 - D-Flat and TED II](./doctor-dobs-journal/9401-D-Flat_and_TED_II.md)  
+[9402 - D-FLAT++ Editor class](./doctor-dobs-journal/9402-D-Flat++_Editor_class.md)  
 
 Radosav.  
 february, 2026.
